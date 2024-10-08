@@ -13,6 +13,24 @@ public class TugasPercabangan{
         /* 
             Tuliskan proses perhitungan gaji di sini
         */
+
+         if(lamaKerja < 5){
+           totalGaji = gajiPokok;
+        }else if (lamaKerja >= 5 && lamaKerja < 10){
+           totalGaji = gajiPokok + (gajiPokok * 0.05);
+        }
+        else{
+            totalGaji = gajiPokok + (gajiPokok * 0.1);
+        }
+
+        if(jumlahJamKerja > 40){       
+            int jumlahJamLembur = jumlahJamKerja - 40;
+            honorLembur  = jumlahJamLembur * 50000;
+        }
+        else{
+            honorLembur = 0;
+        }
+        totalGaji += honorLembur;
        
         
         System.out.println(totalGaji);
