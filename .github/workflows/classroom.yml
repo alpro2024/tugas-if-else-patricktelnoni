@@ -1,0 +1,110 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: Di bawah 5 tahun tanpa lembur
+      id: di-bawah-5-tahun-tanpa-lembur
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Di bawah 5 tahun tanpa lembur
+        setup-command: javac TugasPercabangan.java
+        command: java TugasPercabangan
+        input: |-
+          4
+          30
+        expected-output: '5000000.0'
+        comparison-method: exact
+        timeout: 10
+        max-score: 10
+    - name: Di atas 5 tahun tanpa lembur
+      id: di-atas-5-tahun-tanpa-lembur
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Di atas 5 tahun tanpa lembur
+        setup-command: javac TugasPercabangan.java
+        command: java TugasPercabangan
+        input: |-
+          6
+          40
+        expected-output: '5250000.0'
+        comparison-method: exact
+        timeout: 10
+        max-score: 10
+    - name: Di atas 10 tahun tanpa lembur
+      id: di-atas-10-tahun-tanpa-lembur
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Di atas 10 tahun tanpa lembur
+        setup-command: javac TugasPercabangan.java
+        command: java TugasPercabangan
+        input: |-
+          14
+          40
+        expected-output: '5500000.0'
+        comparison-method: exact
+        timeout: 10
+        max-score: 20
+    - name: Di bawah 5 tahun dengan lembur
+      id: di-bawah-5-tahun-dengan-lembur
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Di bawah 5 tahun dengan lembur
+        setup-command: javac TugasPercabangan.java
+        command: java TugasPercabangan
+        input: |-
+          4
+          45
+        expected-output: '5250000.0'
+        comparison-method: exact
+        timeout: 10
+        max-score: 20
+    - name: Di atas 5 tahun dengan lembur
+      id: di-atas-5-tahun-dengan-lembur
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Di atas 5 tahun dengan lembur
+        setup-command: javac TugasPercabangan.java
+        command: java TugasPercabangan
+        input: |-
+          7
+          47
+        expected-output: '5600000.0'
+        comparison-method: exact
+        timeout: 10
+        max-score: 20
+    - name: Di atas 10 tahun dengan lembur
+      id: di-atas-10-tahun-dengan-lembur
+      uses: classroom-resources/autograding-io-grader@v1
+      with:
+        test-name: Di atas 10 tahun dengan lembur
+        setup-command: javac TugasPercabangan.java
+        command: java TugasPercabangan
+        input: |-
+          15
+          50
+        expected-output: '6000000.0'
+        comparison-method: exact
+        timeout: 10
+        max-score: 20
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        DI-BAWAH-5-TAHUN-TANPA-LEMBUR_RESULTS: "${{steps.di-bawah-5-tahun-tanpa-lembur.outputs.result}}"
+        DI-ATAS-5-TAHUN-TANPA-LEMBUR_RESULTS: "${{steps.di-atas-5-tahun-tanpa-lembur.outputs.result}}"
+        DI-ATAS-10-TAHUN-TANPA-LEMBUR_RESULTS: "${{steps.di-atas-10-tahun-tanpa-lembur.outputs.result}}"
+        DI-BAWAH-5-TAHUN-DENGAN-LEMBUR_RESULTS: "${{steps.di-bawah-5-tahun-dengan-lembur.outputs.result}}"
+        DI-ATAS-5-TAHUN-DENGAN-LEMBUR_RESULTS: "${{steps.di-atas-5-tahun-dengan-lembur.outputs.result}}"
+        DI-ATAS-10-TAHUN-DENGAN-LEMBUR_RESULTS: "${{steps.di-atas-10-tahun-dengan-lembur.outputs.result}}"
+      with:
+        runners: di-bawah-5-tahun-tanpa-lembur,di-atas-5-tahun-tanpa-lembur,di-atas-10-tahun-tanpa-lembur,di-bawah-5-tahun-dengan-lembur,di-atas-5-tahun-dengan-lembur,di-atas-10-tahun-dengan-lembur
